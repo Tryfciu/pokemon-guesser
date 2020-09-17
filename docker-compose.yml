@@ -7,3 +7,11 @@ services:
       - ./api/:/app/
     ports:
       - "8000:8000"
+  client:
+    image: node:latest
+    working_dir: /app
+    stdin_open: true
+    volumes:
+      - ./client:/app
+    ports:
+      - "3000:3000"
