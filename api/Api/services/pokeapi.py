@@ -8,13 +8,13 @@ class Pokemon:
         self.id = id
         self.name = name
         self.order = order
-        self.image_url = image_url
+        self.imageUrl = image_url
 
 
 class Pokeapi():
 
     url = 'https://pokeapi.co/api/v2/pokemon/'
-    api_limit = 807
+    api_limit = 100 ## prev 807 ## prev 700
     batch_size = 2
 
     @classmethod
