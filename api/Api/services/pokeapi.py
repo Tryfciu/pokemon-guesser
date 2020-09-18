@@ -14,7 +14,7 @@ class Pokemon:
 class Pokeapi():
 
     url = 'https://pokeapi.co/api/v2/pokemon/'
-    api_limit = 807
+    api_limit = 100 ## prev 807 ## prev 700
     batch_size = 2
 
     @classmethod
