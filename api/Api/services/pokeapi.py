@@ -8,7 +8,7 @@ class Pokemon:
         self.id = id
         self.name = name
         self.order = order
-        self.image_url = image_url
+        self.imageUrl = image_url
 
 
 class Pokeapi():

@@ -1,0 +1,15 @@
+.gamePanel {
+    background-color: pink;
+    width: 50vw;
+    height: 80vh;
+}
+
+.imageContainer {
+    background-color: red;
+    height: 80%;
+}
+
+.inputContainer {
+    background-color: green;
+    height: 20%;
+}
