@@ -4,7 +4,7 @@ import GamePanel from "../../components/GamePanel/GamePanel";
 import image from "./pokeball.png";
 
 const App: FC = () => {
-    const [pokemonsLoaded, setPokemonsLoaded] = useState(false);
+    const [gameLoaded, setGameLoaded] = useState(false);
 
     return (
         <>
@@ -14,7 +14,7 @@ const App: FC = () => {
             >
                 <div
                     className={style.loadingScreen}
-                    style={{display: pokemonsLoaded ? 'none' : 'absolute'}}
+                    style={{display: gameLoaded ? 'none' : 'absolute'}}
                 >
                     <img
                         className={style.loadingImage}
@@ -22,8 +22,8 @@ const App: FC = () => {
                     />
                 </div>
                 <GamePanel
-                    setPokemonsLoaded={setPokemonsLoaded}
-                    pokemonsLoaded={pokemonsLoaded}
+                    setGameLoaded={setGameLoaded}
+                    gameLoaded={gameLoaded}
                 />
             </div>
         </>

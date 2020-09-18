@@ -15,7 +15,7 @@ class Pokeapi():
 
     url = 'https://pokeapi.co/api/v2/pokemon/'
     api_limit = 100 ## prev 807 ## prev 700
-    batch_size = 2
+    batch_size = 5
 
     @classmethod
     def random_pokemons(cls) -> List[Pokemon]:
