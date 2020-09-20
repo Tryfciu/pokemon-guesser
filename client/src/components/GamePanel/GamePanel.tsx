@@ -3,8 +3,8 @@ import style from "./GamePanel.module.css";
 import NameInput from "./NameInput";
 
 interface GamePanelProps {
-    setPokemonsLoaded: Dispatch<SetStateAction<boolean>>,
-    pokemonsLoaded: boolean,
+    setGameLoaded: Dispatch<SetStateAction<boolean>>,
+    gameLoaded: boolean,
 }
 
 interface Pokemon {
@@ -14,9 +14,15 @@ interface Pokemon {
     imageUrl: string,
 }
 
-const GamePanel: FC<GamePanelProps> = ({setPokemonsLoaded, pokemonsLoaded}) => {
+interface PokemonAnswer {
+    pokemon: Pokemon,
+    correct: boolean,
+}
+
+const GamePanel: FC<GamePanelProps> = ({setGameLoaded, gameLoaded}) => {
     const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
-    const [previousPokemons, setPreviousPokemons] = useState<Array<Pokemon&{correct: boolean}>>([]);
+    const [previousPokemons, setPreviousPokemons] = useState<Array<PokemonAnswer>>([]);
+    const [answer, setAnswer] = useState<string|undefined>(undefined);
 
     useEffect(() => {
         fetch('http://localhost:8000/api/'
@@ -24,44 +30,52 @@ const GamePanel: FC<GamePanelProps> = ({setPokemonsLoaded, pokemonsLoaded}) => {
         ).then((pokemons) => {
             setPokemons(pokemons);
             setTimeout(() => {
-                setPokemonsLoaded(true);
+                setGameLoaded(true);
             }, 2000)
         }).catch(error => {
             console.log(error);
         })
     }, []);
 
-    const isActive = (id: number) => {
-        return pokemons[0].id === id;
-    }
+    useEffect(() => {
+        if(gameLoaded && answer === currentPokemon!.name) {
+            completePokemon(true);
+        }
+    }, [answer]);
 
     const completePokemon = (correct: boolean) => {
-        pokemons.shift()
-        setPokemons(pokemons);
+        const completedPokemon: PokemonAnswer = {pokemon: pokemons.shift()!, correct: correct};
+        setPreviousPokemons([...previousPokemons, completedPokemon]);
+        setPokemons([...pokemons]);
     }
+
+    const currentPokemon = pokemons.length > 0 ? pokemons[0] : undefined;
+
+    const pokemonsImages = pokemons.map(pokemon => (
+        <img
+            key={pokemon.id}
+            style={{display: pokemon.id === currentPokemon!.id ? 'initial' : 'none'}}
+            src={pokemon.imageUrl}
+        />
+    ));
 
     return (
         <div
             className={style.gamePanel}
-            style={{display: pokemonsLoaded ? 'initial' : 'none'}}
+            style={{display: gameLoaded ? 'initial' : 'none'}}
         >
             <div
                 className={style.imageContainer}
             >
-                {pokemons.map(pokemon => (
-                    <img
-                        key={pokemon.id}
-                        style={{display: isActive(pokemon.id) ? 'initial' : 'none'}}
-                        src={pokemon.imageUrl}
-                    />
-                ))}
-
+                {pokemonsImages}
+                {gameLoaded ? currentPokemon!.name : null}
             </div>
             <div
                 className={style.inputContainer}
             >
                 <NameInput
-                    name={pokemons.length > 0 ? pokemons[0].name : "nazwa"}
+                    setAnswer={setAnswer}
+                    name={gameLoaded ? currentPokemon!.name : undefined}
                 />
             </div>
         </div>
