@@ -1,11 +1,14 @@
 import React, {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
 import style from "./GamePanel.module.css";
 import NameInput from "./NameInput";
-
-interface GamePanelProps {
-    setGameLoaded: Dispatch<SetStateAction<boolean>>,
-    gameLoaded: boolean,
-}
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../store/reducers/reducers";
+import {
+    GameSettings,
+    GameSettingsActions,
+    SET_GAME_STARTED,
+    SET_INITIAL_POKEMONS_LOADED
+} from "../../store/types/GameSettingsTypes";
 
 interface Pokemon {
     id: number,
@@ -19,7 +22,11 @@ interface PokemonAnswer {
     correct: boolean,
 }
 
-const GamePanel: FC<GamePanelProps> = ({setGameLoaded, gameLoaded}) => {
+const GamePanel: FC = () => {
+    const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
+    const {gameStarted, initialPokemonsLoaded} = gameSettings;
+    const dispatch = useDispatch();
+
     const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
     const [previousPokemons, setPreviousPokemons] = useState<Array<PokemonAnswer>>([]);
     const [answer, setAnswer] = useState<string|undefined>(undefined);
@@ -30,7 +37,7 @@ const GamePanel: FC<GamePanelProps> = ({setGameLoaded, gameLoaded}) => {
         ).then((pokemons) => {
             setPokemons(pokemons);
             setTimeout(() => {
-                setGameLoaded(true);
+                dispatch({type: SET_INITIAL_POKEMONS_LOADED, payload: true});
             }, 2000)
         }).catch(error => {
             console.log(error);
@@ -38,7 +45,7 @@ const GamePanel: FC<GamePanelProps> = ({setGameLoaded, gameLoaded}) => {
     }, []);
 
     useEffect(() => {
-        if(gameLoaded && answer === currentPokemon!.name) {
+        if(initialPokemonsLoaded && answer === currentPokemon!.name) {
             completePokemon(true);
         }
     }, [answer]);
@@ -62,20 +69,20 @@ const GamePanel: FC<GamePanelProps> = ({setGameLoaded, gameLoaded}) => {
     return (
         <div
             className={style.gamePanel}
-            style={{display: gameLoaded ? 'initial' : 'none'}}
+            style={{display: gameStarted && initialPokemonsLoaded ? 'initial' : 'none'}}
         >
             <div
                 className={style.imageContainer}
             >
                 {pokemonsImages}
-                {gameLoaded ? currentPokemon!.name : null}
+                {initialPokemonsLoaded ? currentPokemon!.name : null}
             </div>
             <div
                 className={style.inputContainer}
             >
                 <NameInput
                     setAnswer={setAnswer}
-                    name={gameLoaded ? currentPokemon!.name : undefined}
+                    name={initialPokemonsLoaded ? currentPokemon!.name : undefined}
                 />
             </div>
         </div>
