@@ -5,6 +5,7 @@ import image from "./pokeball.png";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/reducers/reducers";
 import {GameSettings} from "../../store/types/GameSettingsTypes";
+import Menu from "../../components/Menu/Menu";
 
 const App: FC = () => {
     const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
@@ -18,8 +19,13 @@ const App: FC = () => {
                 className={style.app}
             >
                 <div
+                    style={{display: gameStarted ? 'none' : 'block'}}
+                >
+                    <Menu/>
+                </div>
+                <div
                     className={style.loadingScreen}
-                    style={{display: loading ? 'absolute' : 'none'}}
+                    style={{display: loading ? 'flex' : 'none'}}
                 >
                     <img
                         className={style.loadingImage}
