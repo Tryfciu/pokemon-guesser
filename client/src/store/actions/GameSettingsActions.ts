@@ -1,21 +1,19 @@
 import {
     GameSettingsActions,
-    GameStatus,
-    InitialPokemonLoadStatus,
-    SET_GAME_STATUS,
-    SET_INITIAL_POKEMON_LOAD_STATUS
+    SET_GAME_STARTED,
+    SET_INITIAL_POKEMONS_LOADED,
 } from "../types/GameSettingsTypes";
 
-export function setGameStatus(status: GameStatus): GameSettingsActions {
+export function setGameStatus(gameStarted: Boolean): GameSettingsActions {
     return {
-        type: SET_GAME_STATUS,
-        payload: status
+        type: SET_GAME_STARTED,
+        payload: gameStarted,
     }
 }
 
-export function setInitialPokemonLoadStatus(status: InitialPokemonLoadStatus): GameSettingsActions {
+export function setInitialPokemonLoadStatus(pokemonsLoaded: Boolean): GameSettingsActions {
     return {
-        type: SET_INITIAL_POKEMON_LOAD_STATUS,
-        payload: status
+        type: SET_INITIAL_POKEMONS_LOADED,
+        payload: pokemonsLoaded,
     }
 }

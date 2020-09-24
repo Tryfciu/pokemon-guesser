@@ -7,8 +7,9 @@ import {RootState} from "../../store/reducers/reducers";
 import {GameSettings} from "../../store/types/GameSettingsTypes";
 
 const App: FC = () => {
-    const [gameLoaded, setGameLoaded] = useState(false);
-    const gameStatus = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
+    const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
+    const {initialPokemonsLoaded, gameStarted} = gameSettings;
+    const loading = gameStarted && !initialPokemonsLoaded;
 
     return (
         <>
@@ -18,17 +19,14 @@ const App: FC = () => {
             >
                 <div
                     className={style.loadingScreen}
-                    style={{display: gameLoaded ? 'none' : 'absolute'}}
+                    style={{display: loading ? 'absolute' : 'none'}}
                 >
                     <img
                         className={style.loadingImage}
                         src={image}
                     />
                 </div>
-                <GamePanel
-                    setGameLoaded={setGameLoaded}
-                    gameLoaded={gameLoaded}
-                />
+                <GamePanel/>
             </div>
         </>
     );

@@ -1,22 +1,19 @@
-export type GameStatus = "WAITING" | "STARTED"
-export type InitialPokemonLoadStatus = "LOADING" | "FINISHED"
-
 export interface GameSettings {
-    gameStatus: GameStatus,
-    initialPokemonLoadStatus: InitialPokemonLoadStatus,
+    gameStarted: Boolean,
+    initialPokemonsLoaded: Boolean,
 }
 
-export const SET_GAME_STATUS = 'SET_GAME_STATUS';
-export const SET_INITIAL_POKEMON_LOAD_STATUS = 'SET_INITIAL_POKEMON_LOAD_STATUS';
+export const SET_GAME_STARTED = 'SET_GAME_STARTED';
+export const SET_INITIAL_POKEMONS_LOADED = 'SET_INITIAL_POKEMONS_LOADED';
 
-interface SetGameStatusAction {
-    type: typeof SET_GAME_STATUS,
-    payload: GameStatus,
+interface SetGameStartedAction {
+    type: typeof SET_GAME_STARTED,
+    payload: Boolean,
 }
 
-interface SetInitialPokemonLoadStatusAction {
-    type: typeof SET_INITIAL_POKEMON_LOAD_STATUS,
-    payload: InitialPokemonLoadStatus,
+interface SetInitialPokemonsLoadedAction {
+    type: typeof SET_INITIAL_POKEMONS_LOADED,
+    payload: Boolean,
 }
 
-export type GameSettingsActions = SetGameStatusAction | SetInitialPokemonLoadStatusAction;
+export type GameSettingsActions = SetGameStartedAction | SetInitialPokemonsLoadedAction;
