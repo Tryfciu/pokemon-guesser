@@ -23,9 +23,8 @@ const Menu: FC = () => {
             >
                 <div
                     className={style.loadingContainer}
-                    style={{display: initialPokemonsLoaded ? 'none' : 'inline-block'}}
                 >
-                    <SpinningPokeball/>
+                    {initialPokemonsLoaded ? null : <SpinningPokeball/>}
                 </div>
                 <button
                     className={style.gameButton}

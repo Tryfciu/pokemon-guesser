@@ -11,7 +11,6 @@ import SpinningPokeball from "../../components/Pokeball/SpinningPokeball";
 const App: FC = () => {
     const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
     const {initialPokemonsLoaded, gameStarted} = gameSettings;
-    const loading = gameStarted && !initialPokemonsLoaded;
 
     return (
         <>
@@ -19,17 +18,7 @@ const App: FC = () => {
             <div
                 className={style.app}
             >
-                <div
-                    style={{display: gameStarted ? 'none' : 'block'}}
-                >
-                    <Menu/>
-                </div>
-                <div
-                    className={style.loadingScreen}
-                    style={{display: loading ? 'flex' : 'none'}}
-                >
-                    <SpinningPokeball/>
-                </div>
+                {gameStarted ? null : <Menu/>}
                 <div
                     style={{display: gameStarted && initialPokemonsLoaded ? 'initial' : 'none'}}
                 >

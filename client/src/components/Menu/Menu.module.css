@@ -16,7 +16,6 @@
 .singleplayerCard {
     display: flex;
     align-items: center;
-    justify-content: space-around;
 }
 
 .multiplayerCard {
@@ -48,4 +47,5 @@
 
 .loadingContainer {
     width: 20%;
+    margin-right: 5%;
 }
