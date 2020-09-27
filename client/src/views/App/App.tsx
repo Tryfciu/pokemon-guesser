@@ -6,11 +6,11 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../store/reducers/reducers";
 import {GameSettings} from "../../store/types/GameSettingsTypes";
 import Menu from "../../components/Menu/Menu";
+import SpinningPokeball from "../../components/Pokeball/SpinningPokeball";
 
 const App: FC = () => {
     const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
     const {initialPokemonsLoaded, gameStarted} = gameSettings;
-    const loading = gameStarted && !initialPokemonsLoaded;
 
     return (
         <>
@@ -18,21 +18,12 @@ const App: FC = () => {
             <div
                 className={style.app}
             >
+                {gameStarted ? null : <Menu/>}
                 <div
-                    style={{display: gameStarted ? 'none' : 'block'}}
+                    style={{display: gameStarted && initialPokemonsLoaded ? 'initial' : 'none'}}
                 >
-                    <Menu/>
+                    <GamePanel/>
                 </div>
-                <div
-                    className={style.loadingScreen}
-                    style={{display: loading ? 'flex' : 'none'}}
-                >
-                    <img
-                        className={style.loadingImage}
-                        src={image}
-                    />
-                </div>
-                <GamePanel/>
             </div>
         </>
     );

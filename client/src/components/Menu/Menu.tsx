@@ -1,10 +1,14 @@
 import React, {FC} from "react";
 import style from "./Menu.module.css";
-import {useDispatch} from "react-redux";
-import {SET_GAME_STARTED} from "../../store/types/GameSettingsTypes";
+import {useDispatch, useSelector} from "react-redux";
+import {GameSettings, SET_GAME_STARTED} from "../../store/types/GameSettingsTypes";
+import {RootState} from "../../store/reducers/reducers";
+import SpinningPokeball from "../Pokeball/SpinningPokeball";
 
 const Menu: FC = () => {
     const dispatch = useDispatch();
+    const gameSettings = useSelector<RootState, GameSettings>((state) => state.gameSettingsReducer);
+    const {initialPokemonsLoaded} = gameSettings;
 
     const startSoloGame = () => {
         dispatch({type: SET_GAME_STARTED, payload: true});
@@ -17,9 +21,15 @@ const Menu: FC = () => {
             <div
                 className={style.menuCard + " " + style.singleplayerCard}
             >
+                <div
+                    className={style.loadingContainer}
+                >
+                    {initialPokemonsLoaded ? null : <SpinningPokeball/>}
+                </div>
                 <button
                     className={style.gameButton}
                     onClick={startSoloGame}
+                    disabled={!initialPokemonsLoaded}
                 >
                     Solo game
                 </button>
@@ -32,6 +42,7 @@ const Menu: FC = () => {
                 >
                     <button
                         className={style.gameButton}
+                        disabled={true}
                     >
                         New multiplayer game
                     </button>
@@ -43,9 +54,11 @@ const Menu: FC = () => {
                     <input
                         className={style.codeInput}
                         placeholder="multiplayer code"
+                        disabled={true}
                     />
                     <button
                         className={style.gameButton}
+                        disabled={true}
                     >
                         Join multiplayer game
                     </button>
