@@ -13,6 +13,7 @@ const ScorePanel: FC = () => {
         <div
             className={style.pokemonListItem}
             style={{color: pokemon.correct ? 'black' : 'red'}}
+            key={pokemon.pokemon.id}
         >
             {pokemon.pokemon.name}
         </div>

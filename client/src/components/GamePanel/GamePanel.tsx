@@ -9,12 +9,13 @@ import {
 } from "../../store/types/GameSettingsTypes";
 
 import {Pokemon, PokemonAnswer} from "../../store/types/PokemonAnswersTypes";
-import {setInitialPokemonLoadStatus} from "../../store/actions/GameSettingsActions";
+import {setGameStatus, setInitialPokemonLoadStatus} from "../../store/actions/GameSettingsActions";
 import {addPokemonAnswer} from "../../store/actions/PokemonAnswersActions";
+import ProgressBar from "./ProgressBar";
 
 const GamePanel: FC = () => {
     const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
-    const {initialPokemonsLoaded} = gameSettings;
+    const {initialPokemonsLoaded, gameStarted} = gameSettings;
     const dispatch = useDispatch();
 
     const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
@@ -34,6 +35,12 @@ const GamePanel: FC = () => {
     }, []);
 
     useEffect(() => {
+        if(pokemons.length < 1) {
+            dispatch(setGameStatus(false));
+        }
+    }, [pokemons])
+
+    useEffect(() => {
         if(initialPokemonsLoaded && answer === currentPokemon!.name) {
             completePokemon(true);
         }
@@ -45,12 +52,16 @@ const GamePanel: FC = () => {
         setPokemons([...pokemons]);
     }
 
-    const currentPokemon = pokemons.length > 0 ? pokemons[0] : undefined;
+    const handleTimeExceeded = () => {
+        completePokemon(false);
+    }
+
+    const currentPokemon = initialPokemonsLoaded && gameStarted ? pokemons[0] : undefined;
 
     const pokemonsImages = pokemons.map(pokemon => (
         <img
             key={pokemon.id}
-            style={{display: pokemon.id === currentPokemon!.id ? 'initial' : 'none'}}
+            style={{display: pokemon.id === pokemons[0].id ? 'initial' : 'none'}}
             src={pokemon.imageUrl}
         />
     ));
@@ -61,16 +72,28 @@ const GamePanel: FC = () => {
                 className={style.imageContainer}
             >
                 {pokemonsImages}
-                {initialPokemonsLoaded ? currentPokemon!.name : null}
+                {currentPokemon ? currentPokemon.name : undefined}
             </div>
-            <div
-                className={style.inputContainer}
-            >
-                <NameInput
-                    setAnswer={setAnswer}
-                    name={initialPokemonsLoaded ? currentPokemon!.name : undefined}
-                />
-            </div>
+            {currentPokemon ? (
+                <>
+                    <div
+                        className={style.progressBarContainer}
+                    >
+                        <ProgressBar
+                            pokemon={currentPokemon}
+                            timeExceeded={handleTimeExceeded}
+                        />
+                    </div>
+                    <div
+                        className={style.inputContainer}
+                    >
+                        <NameInput
+                            setAnswer={setAnswer}
+                            name={currentPokemon.name}
+                        />
+                    </div>
+                </>
+            ) : null}
         </div>
     );
 };
