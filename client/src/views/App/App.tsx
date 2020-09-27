@@ -7,10 +7,12 @@ import {RootState} from "../../store/reducers/reducers";
 import {GameSettings} from "../../store/types/GameSettingsTypes";
 import Menu from "../../components/Menu/Menu";
 import SpinningPokeball from "../../components/Pokeball/SpinningPokeball";
+import ScorePanel from "../../components/ScorePanel/ScorePanel";
 
 const App: FC = () => {
     const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
     const {initialPokemonsLoaded, gameStarted} = gameSettings;
+    const gameReady = gameStarted && initialPokemonsLoaded;
 
     return (
         <>
@@ -20,10 +22,18 @@ const App: FC = () => {
             >
                 {gameStarted ? null : <Menu/>}
                 <div
-                    style={{display: gameStarted && initialPokemonsLoaded ? 'initial' : 'none'}}
+                    className={style.middleScreen}
+                    style={{display: gameReady ? 'initial' : 'none'}}
                 >
                     <GamePanel/>
                 </div>
+                {gameReady ? (
+                    <div
+                        className={style.rightScreen}
+                    >
+                        <ScorePanel/>
+                    </div>
+                ) : null}
             </div>
         </>
     );

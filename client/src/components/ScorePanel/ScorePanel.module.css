@@ -1,0 +1,21 @@
+.scorePanel {
+    height: 100vh;
+    border-left: 1px solid black;
+}
+
+.pointsContainer {
+    width: 100%;
+    text-align: center;
+    font-size: 4em;
+    border-bottom: 1px solid black;
+}
+
+.pokemonList {
+    text-align: center;
+}
+
+.pokemonListItem {
+    margin-top: 3%;
+    font-size: 1.5em;
+    font-weight: bold;
+}

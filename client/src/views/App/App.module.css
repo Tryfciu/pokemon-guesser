@@ -26,3 +26,13 @@
     justify-content: center;
     align-items: center;
 }
+
+.middleScreen {
+    margin-left: 20vw;
+    width: 60vw;
+}
+
+.rightScreen {
+    width: 20vw;
+    height: 100vh;
+}
