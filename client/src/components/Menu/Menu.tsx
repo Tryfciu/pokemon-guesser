@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {GameSettings, SET_GAME_STARTED} from "../../store/types/GameSettingsTypes";
 import {RootState} from "../../store/reducers/reducers";
 import SpinningPokeball from "../Pokeball/SpinningPokeball";
+import {setGameStatus} from "../../store/actions/GameSettingsActions";
 
 const Menu: FC = () => {
     const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const Menu: FC = () => {
     const {initialPokemonsLoaded} = gameSettings;
 
     const startSoloGame = () => {
-        dispatch({type: SET_GAME_STARTED, payload: true});
+        dispatch(setGameStatus(true));
     };
 
     return (

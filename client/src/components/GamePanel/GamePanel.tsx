@@ -5,22 +5,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/reducers/reducers";
 import {
     GameSettings,
-    GameSettingsActions,
-    SET_GAME_STARTED,
     SET_INITIAL_POKEMONS_LOADED
 } from "../../store/types/GameSettingsTypes";
 
-interface Pokemon {
-    id: number,
-    order: number,
-    name: string,
-    imageUrl: string,
-}
-
-interface PokemonAnswer {
-    pokemon: Pokemon,
-    correct: boolean,
-}
+import {Pokemon, PokemonAnswer} from "../../store/types/PokemonAnswersTypes";
+import {setInitialPokemonLoadStatus} from "../../store/actions/GameSettingsActions";
+import {addPokemonAnswer} from "../../store/actions/PokemonAnswersActions";
 
 const GamePanel: FC = () => {
     const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
@@ -28,7 +18,6 @@ const GamePanel: FC = () => {
     const dispatch = useDispatch();
 
     const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
-    const [previousPokemons, setPreviousPokemons] = useState<Array<PokemonAnswer>>([]);
     const [answer, setAnswer] = useState<string|undefined>(undefined);
 
     useEffect(() => {
@@ -37,7 +26,7 @@ const GamePanel: FC = () => {
         ).then((pokemons) => {
             setPokemons(pokemons);
             setTimeout(() => {
-                dispatch({type: SET_INITIAL_POKEMONS_LOADED, payload: true});
+                dispatch(setInitialPokemonLoadStatus(true));
             }, 2000)
         }).catch(error => {
             console.log(error);
@@ -52,7 +41,7 @@ const GamePanel: FC = () => {
 
     const completePokemon = (correct: boolean) => {
         const completedPokemon: PokemonAnswer = {pokemon: pokemons.shift()!, correct: correct};
-        setPreviousPokemons([...previousPokemons, completedPokemon]);
+        dispatch(addPokemonAnswer(completedPokemon));
         setPokemons([...pokemons]);
     }
 
@@ -67,9 +56,7 @@ const GamePanel: FC = () => {
     ));
 
     return (
-        <div
-            className={style.gamePanel}
-        >
+        <div>
             <div
                 className={style.imageContainer}
             >
