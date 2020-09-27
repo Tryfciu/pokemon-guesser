@@ -16,7 +16,7 @@
 .singleplayerCard {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 .multiplayerCard {
@@ -44,4 +44,8 @@
 .codeInput {
     height: 20%;
     text-align: center;
+}
+
+.loadingContainer {
+    width: 20%;
 }

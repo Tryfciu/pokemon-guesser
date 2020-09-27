@@ -8,7 +8,7 @@ import {Reducer} from "react";
 import {Simulate} from "react-dom/test-utils";
 
 const gameSettingsReducer: Reducer<GameSettings, GameSettingsActions> = (
-    state: GameSettings = {gameStarted: true, initialPokemonsLoaded: false},
+    state: GameSettings = {gameStarted: false, initialPokemonsLoaded: false},
     action: GameSettingsActions
 ) => {
     switch(action.type) {

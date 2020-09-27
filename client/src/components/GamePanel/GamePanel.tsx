@@ -24,7 +24,7 @@ interface PokemonAnswer {
 
 const GamePanel: FC = () => {
     const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
-    const {gameStarted, initialPokemonsLoaded} = gameSettings;
+    const {initialPokemonsLoaded} = gameSettings;
     const dispatch = useDispatch();
 
     const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
@@ -69,7 +69,6 @@ const GamePanel: FC = () => {
     return (
         <div
             className={style.gamePanel}
-            style={{display: gameStarted && initialPokemonsLoaded ? 'initial' : 'none'}}
         >
             <div
                 className={style.imageContainer}
