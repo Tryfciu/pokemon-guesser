@@ -1,6 +1,4 @@
 import {LOAD_POKEMONS, Pokemons, PokemonsActions, REMOVE_FIRST_POKEMON} from "../types/PokemonsTypes";
-import {Dispatch} from "react";
-import {setInitialPokemonLoadStatus} from "./GameSettingsActions";
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "../reducers/reducers";
 import {Action} from "redux";

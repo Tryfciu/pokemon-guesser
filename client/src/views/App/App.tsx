@@ -1,7 +1,6 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect} from 'react';
 import style from './App.module.css';
 import GamePanel from "../../components/GamePanel/GamePanel";
-import image from "./pokeball.png";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/reducers/reducers";
 import {GameSettings} from "../../store/types/GameSettingsTypes";
@@ -10,7 +9,7 @@ import ScorePanel from "../../components/ScorePanel/ScorePanel";
 import ResultPanel from "../../components/ResultPanel/ResultPanel";
 import {clearPokemonAnswers} from "../../store/actions/PokemonAnswersActions";
 import {setGameStatus, setInitialPokemonLoadStatus} from "../../store/actions/GameSettingsActions";
-import {fetchPokemons, loadPokemons} from "../../store/actions/PokemonsActions";
+import {fetchPokemons} from "../../store/actions/PokemonsActions";
 
 const App: FC = () => {
     const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
