@@ -73,7 +73,6 @@ const GamePanel: FC = () => {
                 className={style.imageContainer}
             >
                 {pokemonsImages}
-                {currentPokemon ? currentPokemon.name : undefined}
             </div>
             {currentPokemon ? (
                 <>
