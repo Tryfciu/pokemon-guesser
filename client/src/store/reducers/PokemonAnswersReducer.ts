@@ -1,5 +1,11 @@
 import {Reducer} from "react";
-import {ADD_POKEMON_ANSWER, PokemonAnswer, PokemonAnswers, PokemonAnswersActions} from "../types/PokemonAnswersTypes";
+import {
+    ADD_POKEMON_ANSWER,
+    CLEAR_POKEMON_ANSWERS,
+    PokemonAnswer,
+    PokemonAnswers,
+    PokemonAnswersActions
+} from "../types/PokemonAnswersTypes";
 import {createTracing} from "trace_events";
 
 const pokemonAnswersReducer: Reducer<PokemonAnswers, PokemonAnswersActions> = (
@@ -8,12 +14,15 @@ const pokemonAnswersReducer: Reducer<PokemonAnswers, PokemonAnswersActions> = (
 ) => {
     switch(action.type) {
         case ADD_POKEMON_ANSWER:
-            console.log([...state.answers, action.payload]);
             return {
                 answers: [
                     ...state.answers,
                     action.payload
                 ]
+            };
+        case CLEAR_POKEMON_ANSWERS:
+            return {
+                answers: []
             };
         default:
             return state;

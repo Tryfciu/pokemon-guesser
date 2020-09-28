@@ -15,10 +15,16 @@ export interface PokemonAnswers {
 }
 
 export const ADD_POKEMON_ANSWER = 'ADD_POKEMON_ANSWER';
+export const CLEAR_POKEMON_ANSWERS = 'CLEAR_POKEMON_ANSWERS';
 
 interface AddPokemonAnswerAction {
     type: typeof ADD_POKEMON_ANSWER,
     payload: PokemonAnswer,
 }
 
-export type PokemonAnswersActions = AddPokemonAnswerAction;
+interface ClearPokemonAnswers {
+    type: typeof CLEAR_POKEMON_ANSWERS,
+    payload: null,
+}
+
+export type PokemonAnswersActions = AddPokemonAnswerAction | ClearPokemonAnswers;

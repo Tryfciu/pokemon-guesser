@@ -1,19 +1,33 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import style from './App.module.css';
 import GamePanel from "../../components/GamePanel/GamePanel";
 import image from "./pokeball.png";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/reducers/reducers";
 import {GameSettings} from "../../store/types/GameSettingsTypes";
 import Menu from "../../components/Menu/Menu";
-import SpinningPokeball from "../../components/Pokeball/SpinningPokeball";
 import ScorePanel from "../../components/ScorePanel/ScorePanel";
 import ResultPanel from "../../components/ResultPanel/ResultPanel";
+import {clearPokemonAnswers} from "../../store/actions/PokemonAnswersActions";
+import {setGameStatus, setInitialPokemonLoadStatus} from "../../store/actions/GameSettingsActions";
+import {fetchPokemons, loadPokemons} from "../../store/actions/PokemonsActions";
 
 const App: FC = () => {
     const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
     const {initialPokemonsLoaded, gameStatus} = gameSettings;
     const gameReady = gameStatus === 'DURING' && initialPokemonsLoaded;
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchPokemons());
+    }, [])
+
+    const resetGame = () => {
+        dispatch(setInitialPokemonLoadStatus(false));
+        dispatch(clearPokemonAnswers());
+        dispatch(fetchPokemons());
+        dispatch(setGameStatus('BEFORE'));
+    }
 
     return (
         <>
@@ -35,7 +49,11 @@ const App: FC = () => {
                         <ScorePanel/>
                     </div>
                 ) : null}
-                {gameStatus === 'AFTER' ? <ResultPanel/> : null}
+                {gameStatus === 'AFTER' ?
+                    <ResultPanel
+                        resetGame={resetGame}
+                    />
+                : null}
             </div>
         </>
     );

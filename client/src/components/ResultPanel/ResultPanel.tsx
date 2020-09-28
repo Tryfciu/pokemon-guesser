@@ -4,7 +4,11 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../store/reducers/reducers";
 import {PokemonAnswer, PokemonAnswers} from "../../store/types/PokemonAnswersTypes";
 
-const ResultPanel: FC = () => {
+interface ResultPanelProps {
+    resetGame: () => void
+}
+
+const ResultPanel: FC<ResultPanelProps> = ({resetGame}) => {
     const data = useSelector<RootState, PokemonAnswers>(state => state.pokemonAnswersReducer);
     const [coveredId, setCoveredId] = useState<number|null>(null);
 
@@ -14,7 +18,7 @@ const ResultPanel: FC = () => {
 
     // for(let i=0;i<20;i++) {
     //     answers.push({
-    //         correct: true,
+    //         correct: i%2 === 0,
     //         pokemon: {imageUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png", order: 20, id: 20, name: "Squirtle"}
     //     })
     // }
@@ -30,7 +34,11 @@ const ResultPanel: FC = () => {
                 onMouseEnter={() => setCoveredId(item.pokemon.id)}
                 onMouseLeave={() => setCoveredId(null)}
             />
-            {item.pokemon.name}
+            <span
+                style={{color: item.correct ? 'green' : 'red'}}
+            >
+                {item.pokemon.name}
+            </span>
         </div>
     ));
 
@@ -54,8 +62,11 @@ const ResultPanel: FC = () => {
                 >
                     {pokemons}
                 </div>
-                <button>
-                    zacznij od nowa
+                <button
+                    className={style.resetButton}
+                    onClick={resetGame}
+                >
+                    menu
                 </button>
             </div>
         </div>
