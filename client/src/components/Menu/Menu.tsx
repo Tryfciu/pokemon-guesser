@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import style from "./Menu.module.css";
 import {useDispatch, useSelector} from "react-redux";
-import {GameSettings, SET_GAME_STARTED} from "../../store/types/GameSettingsTypes";
+import {GameSettings} from "../../store/types/GameSettingsTypes";
 import {RootState} from "../../store/reducers/reducers";
 import SpinningPokeball from "../Pokeball/SpinningPokeball";
 import {setGameStatus} from "../../store/actions/GameSettingsActions";
@@ -12,7 +12,7 @@ const Menu: FC = () => {
     const {initialPokemonsLoaded} = gameSettings;
 
     const startSoloGame = () => {
-        dispatch(setGameStatus(true));
+        dispatch(setGameStatus('DURING'));
     };
 
     return (

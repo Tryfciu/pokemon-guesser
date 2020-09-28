@@ -12,7 +12,7 @@ const ScorePanel: FC = () => {
     const pokemons = pokemonList.map(pokemon => (
         <div
             className={style.pokemonListItem}
-            style={{color: pokemon.correct ? 'black' : 'red'}}
+            style={{color: pokemon.correct ? 'white' : 'red'}}
             key={pokemon.pokemon.id}
         >
             {pokemon.pokemon.name}
@@ -23,6 +23,9 @@ const ScorePanel: FC = () => {
         <div
             className={style.scorePanel}
         >
+            <div
+                className={style.blur}
+            />
             <div
                 className={style.pointsContainer}
             >

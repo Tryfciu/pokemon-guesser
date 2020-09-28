@@ -12,31 +12,22 @@ import {Pokemon, PokemonAnswer} from "../../store/types/PokemonAnswersTypes";
 import {setGameStatus, setInitialPokemonLoadStatus} from "../../store/actions/GameSettingsActions";
 import {addPokemonAnswer} from "../../store/actions/PokemonAnswersActions";
 import ProgressBar from "./ProgressBar";
+import {Pokemons, PokemonsActions} from "../../store/types/PokemonsTypes";
+import {removeFirstPokemon} from "../../store/actions/PokemonsActions";
 
 const GamePanel: FC = () => {
     const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
-    const {initialPokemonsLoaded, gameStarted} = gameSettings;
+    const pokemons = useSelector<RootState, Pokemons>(state => state.pokemonsReducer);
+    const {initialPokemonsLoaded, gameStatus} = gameSettings;
     const dispatch = useDispatch();
 
-    const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
     const [answer, setAnswer] = useState<string|undefined>(undefined);
+    const [imagesLoadingCounter, setImagesLoadingCounter] = useState<number>(0);
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/'
-        ).then(res => res.json()
-        ).then((pokemons) => {
-            setPokemons(pokemons);
-            setTimeout(() => {
-                dispatch(setInitialPokemonLoadStatus(true));
-            }, 2000)
-        }).catch(error => {
-            console.log(error);
-        })
-    }, []);
-
-    useEffect(() => {
-        if(pokemons.length < 1) {
-            dispatch(setGameStatus(false));
+        if(gameStatus === 'DURING' && pokemons.length < 1) {
+            setImagesLoadingCounter(0);
+            dispatch(setGameStatus('AFTER'));
         }
     }, [pokemons])
 
@@ -46,23 +37,30 @@ const GamePanel: FC = () => {
         }
     }, [answer]);
 
+    useEffect(() => {
+        if(imagesLoadingCounter >= 20) {
+            dispatch(setInitialPokemonLoadStatus(true));
+        }
+    }, [imagesLoadingCounter])
+
     const completePokemon = (correct: boolean) => {
-        const completedPokemon: PokemonAnswer = {pokemon: pokemons.shift()!, correct: correct};
+        const completedPokemon: PokemonAnswer = {pokemon: pokemons[0], correct: correct};
         dispatch(addPokemonAnswer(completedPokemon));
-        setPokemons([...pokemons]);
+        dispatch(removeFirstPokemon());
     }
 
     const handleTimeExceeded = () => {
         completePokemon(false);
     }
 
-    const currentPokemon = initialPokemonsLoaded && gameStarted ? pokemons[0] : undefined;
+    const currentPokemon = initialPokemonsLoaded && gameStatus === 'DURING' ? pokemons[0] : undefined;
 
     const pokemonsImages = pokemons.map(pokemon => (
         <img
             key={pokemon.id}
             style={{display: pokemon.id === pokemons[0].id ? 'initial' : 'none'}}
             src={pokemon.imageUrl}
+            onLoad={() => setImagesLoadingCounter(imagesLoadingCounter + 1)}
         />
     ));
 
