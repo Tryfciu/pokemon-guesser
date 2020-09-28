@@ -1,6 +1,6 @@
 # Pokemon guesser
 
-Game based on one recruitment interview idea. Given 20 random pokemons, guess their names.
+Game based on recruitment interview idea. Given 20 random pokemons, guess their names.
 
 ## Demo (currently offline, working to make it online)
 
@@ -9,5 +9,20 @@ Game based on one recruitment interview idea. Given 20 random pokemons, guess th
 ![](https://github.com/Tryfciu/pokemon-guesser/blob/master/readme/game.gif)
 
 ![](https://github.com/Tryfciu/pokemon-guesser/blob/master/readme/result.gif)
+
 ## Technologies
 
+Backend:
+
+- python
+- django rest framework
+- docker
+- pokemon api
+
+Frontend:
+
+- react
+- typescript
+- redux
+- redux-thunk
+- docker
