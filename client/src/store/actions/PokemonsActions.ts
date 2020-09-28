@@ -1,6 +1,9 @@
 import {LOAD_POKEMONS, Pokemons, PokemonsActions, REMOVE_FIRST_POKEMON} from "../types/PokemonsTypes";
 import {Dispatch} from "react";
 import {setInitialPokemonLoadStatus} from "./GameSettingsActions";
+import {ThunkAction} from "redux-thunk";
+import {RootState} from "../reducers/reducers";
+import {Action} from "redux";
 
 export function loadPokemons(pokemons: Pokemons): PokemonsActions {
     return {
@@ -16,8 +19,8 @@ export function removeFirstPokemon(): PokemonsActions {
     }
 }
 
-export function fetchPokemons() {
-    return (dispatch: any) => {
+export function fetchPokemons(): ThunkAction<void, RootState, unknown, Action<string>> {
+    return (dispatch) => {
         return fetch('http://localhost:8000/api/')
             .then(res => res.json())
             .then((pokemons) => {
