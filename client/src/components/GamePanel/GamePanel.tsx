@@ -15,7 +15,7 @@ import ProgressBar from "./ProgressBar";
 
 const GamePanel: FC = () => {
     const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
-    const {initialPokemonsLoaded, gameStarted} = gameSettings;
+    const {initialPokemonsLoaded, gameStatus} = gameSettings;
     const dispatch = useDispatch();
 
     const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
@@ -28,15 +28,15 @@ const GamePanel: FC = () => {
             setPokemons(pokemons);
             setTimeout(() => {
                 dispatch(setInitialPokemonLoadStatus(true));
-            }, 2000)
+            }, 1000)
         }).catch(error => {
             console.log(error);
         })
     }, []);
 
     useEffect(() => {
-        if(pokemons.length < 1) {
-            dispatch(setGameStatus(false));
+        if(gameStatus === 'DURING' && pokemons.length < 1) {
+            dispatch(setGameStatus('AFTER'));
         }
     }, [pokemons])
 
@@ -56,7 +56,7 @@ const GamePanel: FC = () => {
         completePokemon(false);
     }
 
-    const currentPokemon = initialPokemonsLoaded && gameStarted ? pokemons[0] : undefined;
+    const currentPokemon = initialPokemonsLoaded && gameStatus === 'DURING' ? pokemons[0] : undefined;
 
     const pokemonsImages = pokemons.map(pokemon => (
         <img

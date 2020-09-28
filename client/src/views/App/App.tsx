@@ -8,11 +8,12 @@ import {GameSettings} from "../../store/types/GameSettingsTypes";
 import Menu from "../../components/Menu/Menu";
 import SpinningPokeball from "../../components/Pokeball/SpinningPokeball";
 import ScorePanel from "../../components/ScorePanel/ScorePanel";
+import ResultPanel from "../../components/ResultPanel/ResultPanel";
 
 const App: FC = () => {
     const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
-    const {initialPokemonsLoaded, gameStarted} = gameSettings;
-    const gameReady = gameStarted && initialPokemonsLoaded;
+    const {initialPokemonsLoaded, gameStatus} = gameSettings;
+    const gameReady = gameStatus === 'DURING' && initialPokemonsLoaded;
 
     return (
         <>
@@ -20,7 +21,7 @@ const App: FC = () => {
             <div
                 className={style.app}
             >
-                {gameStarted ? null : <Menu/>}
+                {gameStatus === 'BEFORE' ? <Menu/> : null}
                 <div
                     className={style.middleScreen}
                     style={{display: gameReady ? 'initial' : 'none'}}
@@ -34,6 +35,7 @@ const App: FC = () => {
                         <ScorePanel/>
                     </div>
                 ) : null}
+                {gameStatus === 'AFTER' ? <ResultPanel/> : null}
             </div>
         </>
     );
