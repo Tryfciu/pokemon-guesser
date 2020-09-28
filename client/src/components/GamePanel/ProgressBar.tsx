@@ -8,7 +8,7 @@ interface ProgressBarProps {
 }
 
 const ProgressBar: FC<ProgressBarProps> = ({pokemon, timeExceeded}) => {
-    const timeToGuess = 10;
+    const timeToGuess = 6000;
     const [spentTime, setSpentTime] = useState(0);
     const leftTimePercentage = ((spentTime/timeToGuess) * 100)+'%';
 

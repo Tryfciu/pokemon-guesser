@@ -9,7 +9,11 @@ import {
 } from "../../store/types/GameSettingsTypes";
 
 import {Pokemon, PokemonAnswer} from "../../store/types/PokemonAnswersTypes";
-import {setGameStatus, setInitialPokemonLoadStatus} from "../../store/actions/GameSettingsActions";
+import {
+    incrementLoadedImagesAmount, resetLoadedImagesAmount,
+    setGameStatus,
+    setInitialPokemonLoadStatus
+} from "../../store/actions/GameSettingsActions";
 import {addPokemonAnswer} from "../../store/actions/PokemonAnswersActions";
 import ProgressBar from "./ProgressBar";
 import {Pokemons, PokemonsActions} from "../../store/types/PokemonsTypes";
@@ -18,15 +22,14 @@ import {removeFirstPokemon} from "../../store/actions/PokemonsActions";
 const GamePanel: FC = () => {
     const gameSettings = useSelector<RootState, GameSettings>(state => state.gameSettingsReducer);
     const pokemons = useSelector<RootState, Pokemons>(state => state.pokemonsReducer);
-    const {initialPokemonsLoaded, gameStatus} = gameSettings;
+    const {initialPokemonsLoaded, gameStatus, loadedImages: loadedImagesAmount} = gameSettings;
     const dispatch = useDispatch();
 
     const [answer, setAnswer] = useState<string|undefined>(undefined);
-    const [imagesLoadingCounter, setImagesLoadingCounter] = useState<number>(0);
 
     useEffect(() => {
         if(gameStatus === 'DURING' && pokemons.length < 1) {
-            setImagesLoadingCounter(0);
+            dispatch(resetLoadedImagesAmount());
             dispatch(setGameStatus('AFTER'));
         }
     }, [pokemons])
@@ -38,10 +41,10 @@ const GamePanel: FC = () => {
     }, [answer]);
 
     useEffect(() => {
-        if(imagesLoadingCounter >= 20) {
+        if(loadedImagesAmount >= 20) {
             dispatch(setInitialPokemonLoadStatus(true));
         }
-    }, [imagesLoadingCounter])
+    }, [loadedImagesAmount])
 
     const completePokemon = (correct: boolean) => {
         const completedPokemon: PokemonAnswer = {pokemon: pokemons[0], correct: correct};
@@ -60,7 +63,7 @@ const GamePanel: FC = () => {
             key={pokemon.id}
             style={{display: pokemon.id === pokemons[0].id ? 'initial' : 'none'}}
             src={pokemon.imageUrl}
-            onLoad={() => setImagesLoadingCounter(imagesLoadingCounter + 1)}
+            onLoad={() => dispatch(incrementLoadedImagesAmount())}
         />
     ));
 

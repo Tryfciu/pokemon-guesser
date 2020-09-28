@@ -2,10 +2,14 @@ import style from "./pokeball.module.css";
 import image from "../../views/App/pokeball.png";
 import React, {FC} from "react";
 
-const SpinningPokeball: FC = () => {
+interface SpinningPokeballProps {
+    stop: boolean,
+}
+
+const SpinningPokeball: FC<SpinningPokeballProps> = ({stop}) => {
     return (
         <img
-            className={style.loadingImage}
+            className={style.loadingImage + (stop ? '' : ' ' + style.rotate)}
             src={image}
         />
     );

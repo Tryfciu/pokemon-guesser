@@ -9,11 +9,22 @@ import {setGameStatus} from "../../store/actions/GameSettingsActions";
 const Menu: FC = () => {
     const dispatch = useDispatch();
     const gameSettings = useSelector<RootState, GameSettings>((state) => state.gameSettingsReducer);
-    const {initialPokemonsLoaded} = gameSettings;
+    const {initialPokemonsLoaded, loadedImages, pokemonsAmount} = gameSettings;
 
     const startSoloGame = () => {
         dispatch(setGameStatus('DURING'));
     };
+
+    const loadingPokeballs = Array.from({length: pokemonsAmount}).map((v, index) => (
+        <div
+            className={style.pokeballContainer}
+            key={index}
+        >
+            <SpinningPokeball
+                stop={index < loadedImages}
+            />
+        </div>
+    ));
 
     return (
         <div
@@ -25,7 +36,7 @@ const Menu: FC = () => {
                 <div
                     className={style.loadingContainer}
                 >
-                    {initialPokemonsLoaded ? null : <SpinningPokeball/>}
+                    {loadingPokeballs}
                 </div>
                 <button
                     className={style.gameButton}
