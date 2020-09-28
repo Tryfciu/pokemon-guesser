@@ -11,6 +11,7 @@ const SpinningPokeball: FC<SpinningPokeballProps> = ({stop}) => {
         <img
             className={style.loadingImage + (stop ? '' : ' ' + style.rotate)}
             src={image}
+            alt="spinning pokeball"
         />
     );
 };
