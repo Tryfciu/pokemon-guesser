@@ -55,7 +55,7 @@ const ResultPanel: FC<ResultPanelProps> = ({resetGame}) => {
                 <div
                     className={style.title}
                 >
-                    Podsumowanie
+                    Result
                 </div>
                 <div
                     className={style.content}
