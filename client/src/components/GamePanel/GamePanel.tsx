@@ -1,14 +1,11 @@
-import React, {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import style from "./GamePanel.module.css";
 import NameInput from "./NameInput";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/reducers/reducers";
-import {
-    GameSettings,
-    SET_INITIAL_POKEMONS_LOADED
-} from "../../store/types/GameSettingsTypes";
+import {GameSettings} from "../../store/types/GameSettingsTypes";
 
-import {Pokemon, PokemonAnswer} from "../../store/types/PokemonAnswersTypes";
+import {PokemonAnswer} from "../../store/types/PokemonAnswersTypes";
 import {
     incrementLoadedImagesAmount, resetLoadedImagesAmount,
     setGameStatus,
@@ -16,7 +13,7 @@ import {
 } from "../../store/actions/GameSettingsActions";
 import {addPokemonAnswer} from "../../store/actions/PokemonAnswersActions";
 import ProgressBar from "./ProgressBar";
-import {Pokemons, PokemonsActions} from "../../store/types/PokemonsTypes";
+import {Pokemons} from "../../store/types/PokemonsTypes";
 import {removeFirstPokemon} from "../../store/actions/PokemonsActions";
 
 const GamePanel: FC = () => {
@@ -64,6 +61,7 @@ const GamePanel: FC = () => {
             style={{display: pokemon.id === pokemons[0].id ? 'initial' : 'none'}}
             src={pokemon.imageUrl}
             onLoad={() => dispatch(incrementLoadedImagesAmount())}
+            alt={pokemon.name}
         />
     ));
 

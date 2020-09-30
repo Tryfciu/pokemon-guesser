@@ -1,6 +1,6 @@
-import React, {FC, useState} from "react";
+import React, {FC} from "react";
 import style from "./ScorePanel.module.css";
-import {PokemonAnswer, PokemonAnswers} from "../../store/types/PokemonAnswersTypes";
+import {PokemonAnswers} from "../../store/types/PokemonAnswersTypes";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/reducers/reducers";
 

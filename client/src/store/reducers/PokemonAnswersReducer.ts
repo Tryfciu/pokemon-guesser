@@ -6,7 +6,6 @@ import {
     PokemonAnswers,
     PokemonAnswersActions
 } from "../types/PokemonAnswersTypes";
-import {createTracing} from "trace_events";
 
 const pokemonAnswersReducer: Reducer<PokemonAnswers, PokemonAnswersActions> = (
     state: PokemonAnswers = {answers: [] as Array<PokemonAnswer>},

@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {FC, useCallback, useEffect, useState} from "react";
 import style from "./ProgressBar.module.css";
 import {Pokemon} from "../../store/types/PokemonAnswersTypes";
 
@@ -8,13 +8,17 @@ interface ProgressBarProps {
 }
 
 const ProgressBar: FC<ProgressBarProps> = ({pokemon, timeExceeded}) => {
-    const timeToGuess = 6000;
+    const timeToGuess = 1000;
     const [spentTime, setSpentTime] = useState(0);
     const leftTimePercentage = ((spentTime/timeToGuess) * 100)+'%';
 
+    const callTimeExceeded = useCallback(() => {
+        timeExceeded();
+    }, [pokemon, timeExceeded]);
+
     useEffect(() => {
         if(spentTime >= timeToGuess) {
-            timeExceeded();
+            callTimeExceeded();
         } else {
             const interval = setInterval(() => {
                 setSpentTime(spentTime + 30);
