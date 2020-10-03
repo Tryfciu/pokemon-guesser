@@ -2,7 +2,7 @@
 
 Game based on recruitment interview idea. Given 20 random pokemons, guess their names.
 
-## Demo (currently offline, working to make it online)
+## Demo
 
 ![](https://github.com/Tryfciu/pokemon-guesser/blob/master/readme/loading.gif)
 
